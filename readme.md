@@ -2,7 +2,7 @@ Image Slider
 A simple, responsive image slider/carousel built with HTML, CSS, and JavaScript. Lightweight, touch-friendly, and easy to drop into any portfolio or project.
 
 🌐 Live Demo
-👉 [Click to view the slider](https://Sanjana-Narla123.github.io\image-slider\)
+👉 [Click to view the slider](https://Sanjana-Narla123.github.io/image-slider/)
 
 
 🚀 Features
@@ -35,3 +35,4 @@ Optional: tiny swipe helper (or use Pointer Events)
 
 
 📁 Project Structure
+
