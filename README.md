@@ -21,6 +21,6 @@ Clicking on any image opens a **lightbox view** with **Next/Previous navigation*
 
 ---
 ## 🔗 Live Demo
-👉 
+👉  https://sanjana-narla123.github.io/image-slider/
 
 
