@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <style>
+    /* --- Gallery Layout --- */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .gallery-item {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* --- Lightbox Overlay --- */
+    #lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .lightbox-content {
+      margin: auto;
+      display: block;
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* --- Close Button --- */
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .close:hover {
+      color: #bbb;
+    }
+
+    /* --- Prev/Next Arrows --- */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -22px;
+      color: white;
+      font-weight: bold;
+      font-size: 30px;
+      transition: 0.3s;
+      user-select: none;
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+    .prev:hover,
+    .next:hover {
+      color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">Image Gallery</h1>
+
+  <!-- Image Gallery -->
+  <div class="gallery">
+    <img src="https://picsum.photos/400/300?random=1" alt="Image 1" class="gallery-item">
+    <img src="https://picsum.photos/400/300?random=2" alt="Image 2" class="gallery-item">
+    <img src="https://picsum.photos/400/300?random=3" alt="Image 3" class="gallery-item">
+    <img src="https://picsum.photos/400/300?random=4" alt="Image 4" class="gallery-item">
+    <img src="https://picsum.photos/400/300?random=5" alt="Image 5" class="gallery-item">
+    <img src="https://picsum.photos/400/300?random=6" alt="Image 6" class="gallery-item">
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox">
+    <span class="close">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+    <a class="prev">&#10094;</a>
+    <a class="next">&#10095;</a>
+  </div>
+
+  <script>
+    // Select elements
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.querySelector('.close');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+
+    let currentIndex = 0;
+
+    // Open lightbox when clicking on gallery item
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        lightbox.style.display = "block";
+        lightboxImg.src = item.src;
+        currentIndex = index;
+      });
+    });
+
+    // Close lightbox
+    closeBtn.addEventListener('click', () => {
+      lightbox.style.display = "none";
+    });
+
+    // Show next image
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % galleryItems.length;
+      lightboxImg.src = galleryItems[currentIndex].src;
+    });
+
+    // Show previous image
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+      lightboxImg.src = galleryItems[currentIndex].src;
+    });
+
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = "none";
+      }
+    });
+
+    // Keyboard navigation support
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.style.display === "block") {
+        if (e.key === "ArrowRight") {
+          currentIndex = (currentIndex + 1) % galleryItems.length;
+          lightboxImg.src = galleryItems[currentIndex].src;
+        } else if (e.key === "ArrowLeft") {
+          currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+          lightboxImg.src = galleryItems[currentIndex].src;
+        } else if (e.key === "Escape") {
+          lightbox.style.display = "none";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
